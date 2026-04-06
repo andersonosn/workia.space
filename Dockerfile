@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 
 RUN set -e && \
     if [ "${USE_CN_MIRROR:-false}" = "true" ]; then \
-        sed -i "s/deb.debian.org/mirrors.ustc.edu.cn/g" "/etc/apt/sources.list.d/debian.sources"; \
+    sed -i "s/deb.debian.org/mirrors.ustc.edu.cn/g" "/etc/apt/sources.list.d/debian.sources"; \
     fi && \
     apt update && \
     apt install ca-certificates proxychains-ng -qy && \
@@ -78,9 +78,9 @@ COPY apps/desktop/src/main/package.json ./apps/desktop/src/main/package.json
 
 RUN set -e && \
     if [ "${USE_CN_MIRROR:-false}" = "true" ]; then \
-        export SENTRYCLI_CDNURL="https://npmmirror.com/mirrors/sentry-cli"; \
-        npm config set registry "https://registry.npmmirror.com/"; \
-        echo 'canvas_binary_host_mirror=https://npmmirror.com/mirrors/canvas' >> .npmrc; \
+    export SENTRYCLI_CDNURL="https://npmmirror.com/mirrors/sentry-cli"; \
+    npm config set registry "https://registry.npmmirror.com/"; \
+    echo 'canvas_binary_host_mirror=https://npmmirror.com/mirrors/canvas' >> .npmrc; \
     fi && \
     export COREPACK_NPM_REGISTRY=$(npm config get registry | sed 's/\/$//') && \
     npm i -g corepack@latest && \
@@ -105,7 +105,7 @@ RUN pnpm run build:spa:mobile || echo "Mobile build skipped"
 # Copy SPA assets to public/spa
 RUN pnpm run build:spa:copy
 # Build Next.js
-RUN cross-env NODE_OPTIONS=--max-old-space-size=8192 DOCKER=true next build
+RUN pnpm exec cross-env NODE_OPTIONS=--max-old-space-size=8192 DOCKER=true next build
 # Build sitemap — optional
 RUN pnpm run build-sitemap || echo "Sitemap build skipped"
 
@@ -119,7 +119,7 @@ COPY --from=base /distroless/ /
 COPY --from=builder /app/.next/standalone /app/
 COPY --from=builder /app/.next/static /app/.next/static
 # Copy SPA assets (Vite build output)
-COPY --from=builder /app/public/spa /app/public/spa
+COPY --from=builder /app/public/_spa /app/public/_spa
 # Copy database migrations
 COPY --from=builder /app/packages/database/migrations /app/migrations
 COPY --from=builder /app/scripts/migrateServerDB/docker.cjs /app/docker.cjs
