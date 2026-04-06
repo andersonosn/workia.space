@@ -98,8 +98,16 @@ COPY . .
 RUN pnpm exec tsx scripts/dockerPrebuild.mts
 RUN rm -rf src/app/desktop "src/app/(backend)/trpc/desktop"
 
-# run build standalone for docker version
-RUN npm run build:docker
+# Build SPA (desktop)
+RUN pnpm run build:spa
+# Build SPA (mobile) — optional, continue on failure
+RUN pnpm run build:spa:mobile || echo "Mobile build skipped"
+# Copy SPA assets to public/spa
+RUN pnpm run build:spa:copy
+# Build Next.js
+RUN cross-env NODE_OPTIONS=--max-old-space-size=8192 DOCKER=true next build
+# Build sitemap — optional
+RUN pnpm run build-sitemap || echo "Sitemap build skipped"
 
 ## Application image, copy all the files for production
 FROM busybox:latest AS app
