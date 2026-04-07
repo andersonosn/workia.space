@@ -75,3 +75,13 @@ services:
 
       # -- Feature flags -------------------------------------
       - ENABLE_BUSINESS_FEATURES=${ENABLE_BUSINESS_FEATURES:-}
+      - FEATURE_FLAGS=${FEATURE_FLAGS:-}
+      - ENABLED_UPLOAD=${ENABLED_UPLOAD:-1}
+      - ENABLED_KNOWLEDGE_BASE=${ENABLED_KNOWLEDGE_BASE:-1}
+      - ENABLED_ARTIFACTS=${ENABLED_ARTIFACTS:-1}
+      - ENABLED_MCP=${ENABLED_MCP:-0}
+      - ENABLED_WEB_SEARCH=${ENABLED_WEB_SEARCH:-1}
+
+      # -- Agent defaults ------------------------------------
+      - DEFAULT_AGENT_CONFIG=${DEFAULT_AGENT_CONFIG:-}
+      - SYSTEM_AGENT=${SYSTEM_AGENT:-}
