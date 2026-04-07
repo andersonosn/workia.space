@@ -6,6 +6,7 @@ import {
   LibraryBigIcon,
   Settings,
   ShapesIcon,
+  SquareTerminalIcon,
   Video,
 } from 'lucide-react';
 
@@ -35,6 +36,16 @@ export interface NavigationRoute {
  * Used by both Electron navigation and CommandMenu (CMDK)
  */
 export const NAVIGATION_ROUTES: NavigationRoute[] = [
+  {
+    cmdkKey: 'cmdk.apps',
+    electronKey: 'navigation.apps',
+    icon: SquareTerminalIcon,
+    id: 'apps',
+    keywords: ['apps', 'build', 'builder', 'create', 'artifact'],
+    keywordsKey: 'cmdk.keywords.apps',
+    path: '/apps',
+    pathPrefix: '/apps',
+  },
   {
     cmdkKey: 'cmdk.community',
     electronKey: 'navigation.discover',

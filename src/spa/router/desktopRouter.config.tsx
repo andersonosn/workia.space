@@ -62,7 +62,10 @@ export const desktopRoutes: RouteObject[] = [
       {
         children: [
           {
-            element: redirectElement('/'),
+            element: dynamicElement(
+              () => import('@/routes/(main)/apps'),
+              'Desktop > Apps > Index',
+            ),
             index: true,
           },
           {

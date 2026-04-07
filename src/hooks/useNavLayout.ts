@@ -58,6 +58,12 @@ export const useNavLayout = (): NavLayout => {
           title: t('tab.pages'),
           url: '/page',
         },
+        {
+          icon: getRouteById('apps')!.icon,
+          key: SidebarTabKey.Apps,
+          title: 'App Builder',
+          url: '/apps',
+        },
       ] as NavItem[],
     [t, toggleCommandMenu],
   );
