@@ -19,6 +19,9 @@ import DesktopChatLayout from '@/routes/(main)/agent/_layout';
 import AgentChannelPage from '@/routes/(main)/agent/channel';
 import AgentCronDetailPage from '@/routes/(main)/agent/cron/[cronId]';
 import AgentProfilePage from '@/routes/(main)/agent/profile';
+import AppsLayout from '@/routes/(main)/apps/_layout';
+import AppChatPage from '@/routes/(main)/apps/[appId]';
+import AppStartPage from '@/routes/(main)/apps/[appId]/start';
 import CommunityLayout from '@/routes/(main)/community/_layout';
 import CommunityDetailLayout from '@/routes/(main)/community/(detail)/_layout';
 import CommunityDetailAgentPage from '@/routes/(main)/community/(detail)/agent';
@@ -109,6 +112,32 @@ export const desktopRoutes: RouteObject[] = [
           },
         ],
         path: 'agent',
+      },
+
+      // App Builder routes (/apps)
+      {
+        children: [
+          {
+            element: redirectElement('/'),
+            index: true,
+          },
+          {
+            children: [
+              {
+                element: <AppChatPage />,
+                index: true,
+              },
+              {
+                element: <AppStartPage />,
+                path: 'start',
+              },
+            ],
+            element: <AppsLayout />,
+            errorElement: <ErrorBoundary resetPath="/apps" />,
+            path: ':appId',
+          },
+        ],
+        path: 'apps',
       },
 
       // Group chat routes

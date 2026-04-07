@@ -58,6 +58,41 @@ export const desktopRoutes: RouteObject[] = [
         path: 'agent',
       },
 
+      // App Builder routes (/apps)
+      {
+        children: [
+          {
+            element: redirectElement('/'),
+            index: true,
+          },
+          {
+            children: [
+              {
+                element: dynamicElement(
+                  () => import('@/routes/(main)/apps/[appId]'),
+                  'Desktop > Apps > Chat',
+                ),
+                index: true,
+              },
+              {
+                element: dynamicElement(
+                  () => import('@/routes/(main)/apps/[appId]/start'),
+                  'Desktop > Apps > Start',
+                ),
+                path: 'start',
+              },
+            ],
+            element: dynamicLayout(
+              () => import('@/routes/(main)/apps/_layout'),
+              'Desktop > Apps > Layout',
+            ),
+            errorElement: <ErrorBoundary resetPath="/apps" />,
+            path: ':appId',
+          },
+        ],
+        path: 'apps',
+      },
+
       // Group chat routes
       {
         children: [
