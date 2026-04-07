@@ -1,3 +1,5 @@
+import { mkdirSync } from 'node:fs';
+
 import { ENABLE_BUSINESS_FEATURES } from '@lobechat/business-const';
 import { type LobeChatDatabase } from '@lobechat/database';
 
@@ -32,6 +34,12 @@ export class UserService {
         console.error(error);
         console.error('Failed to init new user for business');
       }
+    }
+
+    try {
+      mkdirSync(`/workspace/${user.id}`, { recursive: true });
+    } catch (error) {
+      console.error('Failed to create user workspace directory:', error);
     }
 
     const analytics = await initializeServerAnalytics();

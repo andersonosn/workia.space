@@ -56,7 +56,14 @@ export class AgentService {
   async createInbox() {
     const sessionModel = new SessionModel(this.db, this.userId);
     const defaultAgentConfig = getServerDefaultAgentConfig();
-    await sessionModel.createInbox(defaultAgentConfig);
+    const configWithWorkspace = merge(defaultAgentConfig, {
+      chatConfig: {
+        runtimeEnv: {
+          workingDirectory: `/workspace/${this.userId}`,
+        },
+      },
+    });
+    await sessionModel.createInbox(configWithWorkspace);
   }
 
   /**
